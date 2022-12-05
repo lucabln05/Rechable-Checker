@@ -27,11 +27,11 @@ def search():
                 print(err)
             # wenn die domain erreichbar ist wird sie in die Datei "reachable.txt" geschrieben
             if response == 0:
-                print (hostname, 'is up!')
+                print (hostname, 'ist erreichbar!')
                 log('reachable', hostname)
             # wenn die domain nicht erreichbar ist wird sie in die Datei "unreachable.txt" geschrieben
             else:
-                print (hostname, 'is down!')
+                print (hostname, 'ist nicht erreichbar!')
                 log('unreachable', hostname)
     # schließt die Datei
     f.close()
