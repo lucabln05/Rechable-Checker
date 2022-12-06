@@ -1,6 +1,4 @@
-import os 
-#multiprocessing damit domains gleichzeitig abgefragt werden können
-from concurrent.futures import ThreadPoolExecutor
+import socket
 
 
 def delete():
@@ -13,27 +11,28 @@ def delete():
 
 def search():
     # liest die Datei aus in der die Hostname stehen
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(2)
+
     f = open('list.txt', 'r')
     # wie viele Domains gleichzeitig abgefragt werden sollen
-    max_workers = 10
-    # startet den Thread Pool
-    with ThreadPoolExecutor(max_workers) as executor:
-        # list jede Zeile einzeln aus und ping sie
-        for line in f:
-            hostname = line.strip()
-            try:
-                response = os.system("ping -n 1 " + hostname)   # checkt einmal ob die domain erreichbar ist
-            except Exception as err:
-                print(err)
-            # wenn die domain erreichbar ist wird sie in die Datei "reachable.txt" geschrieben
-            if response == 0:
-                print (hostname, 'ist erreichbar!')
-                log('reachable', hostname)
-            # wenn die domain nicht erreichbar ist wird sie in die Datei "unreachable.txt" geschrieben
-            else:
-                print (hostname, 'ist nicht erreichbar!')
-                log('unreachable', hostname)
-    # schließt die Datei
+
+
+    # list jede Zeile einzeln aus und ping sie
+    for line in f:
+        serveradress = line.strip()
+        server_hostname,server_port = serveradress.split(':')       # splitte die Zeile in hostname und port
+
+        try:
+            s.connect((server_hostname, int(server_port)))
+            print (server_hostname, 'ist erreichbar!')
+            log('reachable', server_hostname)
+
+        except Exception as err:
+            print(err)
+            print (server_hostname, 'ist nicht erreichbar!')
+            log('unreachable', server_hostname)
+
     f.close()
 
 
