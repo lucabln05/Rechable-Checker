@@ -9,7 +9,7 @@ def delete():
         print(err)
 
 
-def search():
+def check():
     # liest die Datei aus in der die Hostname stehen
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(2)
@@ -49,4 +49,4 @@ def log(datei, domain):
 
 
 delete()
-search()
+check()
