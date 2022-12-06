@@ -1,4 +1,4 @@
-import socket
+import socket       # to check connection to server
 
 
 def delete():
@@ -17,7 +17,19 @@ def check():
     # list jede Zeile einzeln aus und ping sie
     for line in f:
         serveradress = line.strip()
-        server_hostname,server_port = serveradress.split(':')       # splitte die Zeile in hostname und port
+        
+        try:
+            server_hostname,server_port = serveradress.split(':')       # splitte die Zeile in hostname und port
+
+        except Exception as err:
+            print(err)
+            print(f'''
+            Fehler in der Zeile: {line}'
+            
+            Bitte überprüfen Sie die Syntax der Datei "list.txt"!
+            Syntax: hostname:port
+            ''')
+            break
 
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   # erstelle socket
