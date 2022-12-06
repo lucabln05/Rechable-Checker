@@ -55,23 +55,27 @@ def main_window():
 
     reachable_file_len = len(open('reachable.txt', 'r').readlines())
     ttk.Label(root, text=f"Erreichbare Server({reachable_file_len}): ", foreground="green").pack()
-    ttk.Label(root, text="").pack()
+   
     reachable_file = open('reachable.txt', 'r')
 
     for line in reachable_file:
-        #erstellt ein label zu jeder zeile in der datei jeder zeile hat einen individuellen link der auf die website des servers führt, variable vom lable muss immer anderst sein in jedem for loop'
-        server_adress = ttk.Label(root, text=line)
+        serverip, serveralias = line.split(" AS ")
+        ttk.Label(root, text="").pack()
+        server_adress = ttk.Label(root, text=f'{serveralias} ({serverip})')
         server_adress.pack()
 
-    ttk.Label(root, text="").pack()
 
+
+    ttk.Label(root, text="").pack()
     unreachable_file_len = len(open('unreachable.txt', 'r').readlines())
     ttk.Label(root, text=f"Nicht Erreichbare Server({unreachable_file_len}): ", foreground="red").pack()
-    ttk.Label(root, text="").pack()
 
     unreachable_file = open('unreachable.txt', 'r')
+    
     for line in unreachable_file:
-        server_adress = ttk.Label(root, text=line)
+        serverip, serveralias = line.split(" AS ")
+        ttk.Label(root, text="").pack()
+        server_adress = ttk.Label(root, text=f'{serveralias} ({serverip})')
         server_adress.pack()
 
 

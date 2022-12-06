@@ -19,8 +19,8 @@ def check():
     for line in f:
         serveradress = line.strip()
         try:
-            server_hostname,server_port = serveradress.split(':')       # splitte die Zeile in hostname und port
-
+            server_hostname,server_port_and_alias = serveradress.split(':')       # splitte die Zeile in hostname und port mit alias
+            server_port,server_alias = server_port_and_alias.split(' AS ')       # splitte den port in port und alias
         except Exception as err:
             print(err)
             print(f'''

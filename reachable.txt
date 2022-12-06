@@ -1,2 +1,2 @@
-192.168.178.1:80
-google.com:80
+192.168.178.1:80 AS FritzBox 7590
+google.com:80 AS Google
