@@ -11,11 +11,7 @@ def delete():
 
 def check():
     # liest die Datei aus in der die Hostname stehen
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(2)
-
     f = open('list.txt', 'r')
-    # wie viele Domains gleichzeitig abgefragt werden sollen
 
 
     # list jede Zeile einzeln aus und ping sie
@@ -24,16 +20,20 @@ def check():
         server_hostname,server_port = serveradress.split(':')       # splitte die Zeile in hostname und port
 
         try:
-            s.connect((server_hostname, int(server_port)))
-            print (server_hostname, 'ist erreichbar!')
-            log('reachable', server_hostname)
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   # erstelle socket
+            s.settimeout(2)                                    # setze timeout
+            s.connect((server_hostname, int(server_port)))   # versucht sich mit server zu verbinden
+            print (server_hostname, 'ist erreichbar!')      # wenn erfolgreich, dann printe
+            log('reachable', server_hostname)        # und schreibe in die Datei "reachable.txt"
 
+        # wenn nicht erfolgreich, dann printe und schreibe in die Datei "unreachable.txt"
         except Exception as err:
             print(err)
             print (server_hostname, 'ist nicht erreichbar!')
             log('unreachable', server_hostname)
-
-    f.close()
+    
+    s.close()   # schließe socket
+    f.close()   # schließe datei
 
 
 def log(datei, domain):
